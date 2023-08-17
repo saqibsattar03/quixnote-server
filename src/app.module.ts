@@ -1,0 +1,34 @@
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './common/auth/auth.module';
+import { DbModule } from './common/db/db.module';
+import { ProfileModule } from './modules/profile/profile.module';
+import { CommentModule } from './modules/comment/comment.module';
+import { PrivacyPolicyModule } from './modules/privacy-policy/privacy-policy.module';
+import { TermsAndConditionsModule } from './modules/terms-and-conditions/terms-and-conditions.module';
+import { FaqModule } from './modules/faq/faq.module';
+import { TicketModule } from './modules/ticket/ticket.module';
+import { NotesModule } from './modules/notes/notes.module';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env.development',
+    }),
+    AuthModule,
+    DbModule,
+    ProfileModule,
+    CommentModule,
+    PrivacyPolicyModule,
+    TermsAndConditionsModule,
+    FaqModule,
+    TicketModule,
+    NotesModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
