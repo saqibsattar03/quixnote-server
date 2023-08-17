@@ -22,7 +22,7 @@ export class FaqController {
     return this.faqService.create(data);
   }
 
-  @Get('all')
+  @Get('/all')
   @ApiResponse({ type: [FaqDto] })
   getAll() {
     return this.faqService.getAll();

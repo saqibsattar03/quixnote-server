@@ -27,7 +27,7 @@ export class TicketController {
     return this.ticketService.create(data);
   }
 
-  @Get('all')
+  @Get('/all')
   @ApiBearerAuth('access-token')
   @UseGuards(JwtAuthGuard)
   getAllTicketsByUserId(@Request() request) {
