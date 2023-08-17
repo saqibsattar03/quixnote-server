@@ -26,7 +26,7 @@ export class NotesService {
 
   async getSingleNoteOfUser(id): Promise<NotesDocument> {
     const note = await this.notesModel.findById(id);
-    if (!note) throw new NotFoundException('no note found');
+    if (!note) throw new NotFoundException('no such note found');
     return this.notesModel.findById(id).populate('userId');
   }
 
