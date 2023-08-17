@@ -15,5 +15,6 @@ import { User, UserSchema } from '../../data/schemas/user.schema';
   ],
   providers: [ProfileService],
   controllers: [ProfileController],
+  exports: [ProfileService],
 })
 export class ProfileModule {}

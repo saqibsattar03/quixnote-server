@@ -12,17 +12,20 @@ import {
   ApiBearerAuth,
   ApiBody,
   ApiCreatedResponse,
+  ApiNotAcceptableResponse,
+  ApiOkResponse,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { LocalAuthGuard } from './guards/localAuth.guard';
-import { UserDto } from '../../data/dtos/user.dto';
+import { SocialAuthDto, UserDto } from '../../data/dtos/user.dto';
 import { JwtAuthGuard } from './guards/jwtAuth.guard';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
   @Post('sign-up')
   @ApiBody({ type: UserDto })
   signUp(@Body() userData) {
@@ -57,5 +60,16 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   fetchUserProfileUsingToken(@Request() request) {
     return this.authService.fetchUserProfileUsingToken(request.user.email);
+  }
+
+  @ApiBadRequestResponse({ description: 'Issue in request data' })
+  @ApiNotAcceptableResponse({
+    description:
+      'Account with this email already exists, kindly SignIn through Email and Password!',
+  })
+  @ApiUnauthorizedResponse({ description: 'Email already exists' })
+  @Post('social-sign-in')
+  socialSignIn(@Body() data: SocialAuthDto) {
+    return this.authService.socialSignIn(data);
   }
 }

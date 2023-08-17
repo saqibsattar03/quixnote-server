@@ -21,6 +21,38 @@ export class ProfileService {
     private readonly userModel: Model<UserDocument>,
   ) {}
 
+  async createUser(userDto: any): Promise<UserDocument> {
+    userDto.password = await hashPassword(userDto.password);
+    const lowerCaseEmail = userDto.email.toLowerCase();
+
+    const userExits = await this.userModel.findOne({ email: lowerCaseEmail });
+    // const userExits = await this.profileService.fetchByEmail(lowerCaseEmail);
+    if (userExits)
+      throw new HttpException(
+        'An account with this email already exists.',
+        HttpStatus.UNAUTHORIZED,
+      );
+    const newUser = new this.userModel({
+      fullName: userDto.fullName,
+      email: lowerCaseEmail,
+      password: userDto.password,
+      role: userDto.role,
+      scopes: userDto.scopes,
+      // isSubscribed: userDto.isSubscribed,
+      // isVerified: userDto.isVerified,
+    });
+    await newUser.save();
+    return newUser;
+  }
+
+  async fetchByEmail(email: string) {
+    return this.userModel.findOne({ email: email });
+  }
+
+  async fetchByEmailAndPassword(email: string) {
+    return this.userModel.findOne({ email: email }).select('password');
+  }
+
   async updateProfile(data): Promise<UserDocument> {
     const user = await this.userModel.findOne({ _id: data.userId });
     if (!user) throw new NotFoundException(' Profile does not exist');

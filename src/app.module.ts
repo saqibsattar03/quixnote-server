@@ -11,6 +11,8 @@ import { TermsAndConditionsModule } from './modules/terms-and-conditions/terms-a
 import { FaqModule } from './modules/faq/faq.module';
 import { TicketModule } from './modules/ticket/ticket.module';
 import { NotesModule } from './modules/notes/notes.module';
+import { MulterModule } from '@nestjs/platform-express';
+import { multerConfig } from './common/utils/fileUpload.util';
 
 @Module({
   imports: [
@@ -27,6 +29,7 @@ import { NotesModule } from './modules/notes/notes.module';
     FaqModule,
     TicketModule,
     NotesModule,
+    MulterModule.register(multerConfig),
   ],
   controllers: [AppController],
   providers: [AppService],

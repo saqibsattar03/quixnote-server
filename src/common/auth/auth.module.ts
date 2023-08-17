@@ -8,16 +8,12 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { User, UserSchema } from '../../data/schemas/user.schema';
 import { jwtConstants } from './guards/secret';
+import { ProfileModule } from '../../modules/profile/profile.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      {
-        name: User.name,
-        schema: UserSchema,
-      },
-    ]),
     PassportModule,
+    ProfileModule,
     JwtModule.register({
       //save secret key in env file
       // secret: process.env.SECRET_KEY,
