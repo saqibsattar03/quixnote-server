@@ -22,7 +22,11 @@ export class ProfileService {
   ) {}
 
   async createUser(userDto: any): Promise<UserDocument> {
-    userDto.password = await hashPassword(userDto.password);
+    let passwordHash = null;
+
+    if (userDto.password) {
+      passwordHash = await hashPassword(userDto.password);
+    }
     const lowerCaseEmail = userDto.email.toLowerCase();
 
     const userExits = await this.userModel.findOne({ email: lowerCaseEmail });
@@ -35,7 +39,7 @@ export class ProfileService {
     const newUser = new this.userModel({
       fullName: userDto.fullName,
       email: lowerCaseEmail,
-      password: userDto.password,
+      password: passwordHash,
       role: userDto.role,
       scopes: userDto.scopes,
       // isSubscribed: userDto.isSubscribed,

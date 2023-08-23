@@ -69,6 +69,7 @@ export class UpdateUserDto {
 
 export class SocialAuthDto {
   @ApiProperty({ type: String, name: 'fullName' })
+  @IsNotEmpty()
   fullName: string;
 
   @ApiProperty({ type: String, name: 'email' })
@@ -76,10 +77,8 @@ export class SocialAuthDto {
   email: string;
 
   @ApiProperty({ type: String, name: 'role' })
-  @IsNotEmpty()
   role: string;
 
-  @IsNotEmpty()
   @ApiProperty({ type: String, name: 'loginVia' })
   // @IsOptional()
   loginVia: string;

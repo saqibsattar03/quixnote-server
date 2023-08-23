@@ -74,14 +74,42 @@ export class AuthService {
       );
     }
 
-    const payload = {
-      email: fetchedUser.email,
-      sub: fetchedUser._id,
+    // const payload = {
+    //   email: fetchedUser.email,
+    //   sub: fetchedUser._id,
+    // };
+
+    return {
+      access_token: await this.jwtService.signAsync({
+        email: fetchedUser.email,
+        sub: fetchedUser._id,
+      }),
+
+      // const access_token = await this.jwtService.signAsync(payload);
+      //
+      // return { user: fetchedUser, access_token };
     };
+  }
 
-    const access_token = await this.jwtService.signAsync(payload);
+  async signInViaEmail(user: any): Promise<any> {
+    const fetchedUser = await this.profileService.fetchByEmail(user.email);
+    if (!fetchedUser || fetchedUser.status === 'DELETED') {
+      throw new HttpException(
+        'User not found. Please create an account first.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
 
-    return { user: fetchedUser, access_token };
+    return {
+      access_token: await this.jwtService.signAsync({
+        email: fetchedUser.email,
+        sub: fetchedUser._id,
+      }),
+
+      // const access_token = await this.jwtService.signAsync(payload);
+      //
+      // return { user: fetchedUser, access_token };
+    };
   }
 
   async fetchUserProfileUsingToken(email: string): Promise<any> {
@@ -110,12 +138,13 @@ export class AuthService {
   }
 
   async socialSignIn(data: SocialAuthDto) {
-    if (!(await Validations.ValidateLoginOption(data.loginVia))) {
-      throw new HttpException(
-        'Invalid login option!',
-        HttpStatus.NOT_ACCEPTABLE,
-      );
-    }
+    console.log('here in social sign in');
+    // if (!(await Validations.ValidateLoginOption(data.loginVia))) {
+    //   throw new HttpException(
+    //     'Invalid login option!',
+    //     HttpStatus.NOT_ACCEPTABLE,
+    //   );
+    // }
     if (await this.validateIDToken(data.idToken)) {
       const user = await this.profileService.fetchByEmail(data.email);
       if (user) {

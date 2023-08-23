@@ -14,7 +14,11 @@ export class TermsAndConditionsService {
   async create(
     termsAndConditionsDto: TermsAndConditionsDto,
   ): Promise<TermsDocument> {
-    return this.termsModel.create(termsAndConditionsDto);
+    return this.termsModel.create({
+      clause: termsAndConditionsDto.clause,
+      description: termsAndConditionsDto.description,
+      lastUpdated: Date.now(),
+    });
   }
   async getAll(): Promise<TermsDocument[]> {
     return this.termsModel.find();

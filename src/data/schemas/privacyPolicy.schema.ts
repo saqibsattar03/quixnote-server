@@ -9,6 +9,9 @@ export class PrivacyPolicy {
 
   @Prop({ type: String })
   description: string;
+
+  @Prop({ type: Date })
+  lastUpdated: Date;
 }
 
 export const PrivacyPolicySchema = SchemaFactory.createForClass(PrivacyPolicy);

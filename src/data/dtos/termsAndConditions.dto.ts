@@ -12,4 +12,8 @@ export class TermsAndConditionsDto {
   @ApiProperty({ type: String, name: 'description' })
   @IsNotEmpty()
   description: string;
+
+  @ApiProperty({ type: Date, name: 'lastUpdated' })
+  @IsNotEmpty()
+  lastUpdated: Date;
 }

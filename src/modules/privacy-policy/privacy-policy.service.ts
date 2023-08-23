@@ -17,10 +17,14 @@ export class PrivacyPolicyService {
   async create(
     privacyPolicyDto: PrivacyPolicyDto,
   ): Promise<PrivacyPolicyDocument> {
-    return this.privacyPolicyModel.create(privacyPolicyDto);
+    return this.privacyPolicyModel.create({
+      clause: privacyPolicyDto.clause,
+      description: privacyPolicyDto.description,
+      lastUpdated: Date.now(),
+    });
   }
   async getAll(): Promise<PrivacyPolicyDocument[]> {
-    return this.privacyPolicyModel.find();
+    return this.privacyPolicyModel.find().sort({ lastUpdated: -1 });
   }
 
   async getById(id): Promise<PrivacyPolicyDocument> {

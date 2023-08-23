@@ -5,6 +5,7 @@ import {
   UseGuards,
   Request,
   Get,
+  Param,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {
@@ -29,7 +30,7 @@ export class AuthController {
   @Post('sign-up')
   @ApiBody({ type: UserDto })
   signUp(@Body() userData) {
-    console.log(userData);
+    console.log('user data :: ', userData);
     return this.authService.signUp(userData);
   }
 
@@ -47,6 +48,20 @@ export class AuthController {
   signIn(@Request() request: any): Promise<any> {
     console.log('request :: ', request.body);
     return this.authService.signIn(request.body);
+  }
+
+  @Post('sign-in-via-email')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        email: { type: 'string' },
+      },
+    },
+  })
+  signInViaEmail(@Request() request: any): Promise<any> {
+    console.log('request :: ', request.body);
+    return this.authService.signInViaEmail(request.body);
   }
 
   @Get('/person')
@@ -70,6 +85,12 @@ export class AuthController {
   @ApiUnauthorizedResponse({ description: 'Email already exists' })
   @Post('social-sign-in')
   socialSignIn(@Body() data: SocialAuthDto) {
+    console.log('called');
     return this.authService.socialSignIn(data);
+  }
+
+  @Post('/validate-idToken/:token')
+  validateIdToken(@Param('token') token) {
+    return this.authService.validateIDToken(token);
   }
 }

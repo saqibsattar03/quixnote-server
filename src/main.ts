@@ -22,6 +22,10 @@ async function bootstrap() {
     }),
   );
 
+  // if (
+  //   process.env.NODE_ENV == 'staging' ||
+  //   process.env.NODE_ENV == 'development'
+  // ) {
   const config = new DocumentBuilder()
     .setTitle('Quix-Note')
     .setVersion('1.0')
@@ -30,7 +34,9 @@ async function bootstrap() {
       'access-token',
     )
     .build();
-  // app.useStaticAssets();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('swagger', app, document);
+  // }
 
   app.useStaticAssets(join(process.cwd(), '..', '..', 'uploads'), {
     prefix: '/uploads/',
@@ -38,8 +44,6 @@ async function bootstrap() {
 
   app.enableCors();
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('swagger', app, document);
   const port = 4000;
   app.use(json({ limit: '50mb' }));
   app.use(urlencoded({ extended: true, limit: '50mb' }));

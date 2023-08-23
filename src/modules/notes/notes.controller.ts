@@ -30,6 +30,7 @@ export class NotesController {
   @UseGuards(JwtAuthGuard)
   create(@Body() data: any, @Request() request: any) {
     data.userId = request.user.userId;
+    console.log('userId :: ', data);
     return this.notesService.createNotes(data);
   }
 
@@ -59,5 +60,10 @@ export class NotesController {
   @ApiResponse({ type: NotesDto })
   editNote(@Body() data: any) {
     return this.notesService.editNote(data);
+  }
+
+  @Post('/filter')
+  filterNotes(@Body() data) {
+    return this.notesService.filterNotes(data);
   }
 }
