@@ -28,3 +28,14 @@ export class NotesDto {
   @ApiProperty({ type: [String], name: 'deadline' })
   media: [string];
 }
+
+export class NotesFilterDto {
+  @ApiProperty({ type: String, name: 'projectName' })
+  projectName: string;
+
+  @ApiProperty({ type: String, name: 'priority' })
+  priority: string;
+
+  @ApiProperty({ type: Date, name: 'createdAt' })
+  createdAt: Date;
+}

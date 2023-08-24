@@ -17,7 +17,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../common/auth/guards/jwtAuth.guard';
-import { NotesDto } from '../../data/dtos/notes.dto';
+import { NotesDto, NotesFilterDto } from '../../data/dtos/notes.dto';
 
 @ApiTags('Notes')
 @Controller('notes')
@@ -63,7 +63,10 @@ export class NotesController {
   }
 
   @Post('/filter')
+  @ApiBody({ type: NotesFilterDto })
+  @ApiResponse({ type: [NotesDto] })
   filterNotes(@Body() data) {
+    console.log(data);
     return this.notesService.filterNotes(data);
   }
 }
