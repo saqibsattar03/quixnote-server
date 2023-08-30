@@ -13,7 +13,8 @@ export class MongooseConfigService implements MongooseOptionsFactory {
     return {
       // useNewUrlParser: true,
       // useUnifiedTopology: true,
-      uri: process.env.MONGO_URI,
+      // uri: process.env.MONGO_URI,
+      uri: 'mongodb://wright-admin:hxG7yW4JN5@159.223.192.173:27017/quix-note-db?authSource=admin&retryWrites=true&w=majority',
     };
   }
 }
