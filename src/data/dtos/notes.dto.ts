@@ -17,16 +17,16 @@ export class NotesDto {
   @IsNotEmpty()
   priority: string;
 
-  @ApiProperty({ type: String, name: 'projectName' })
-  @IsNotEmpty()
-  projectName: string;
+  // ApiProperty({ type: String, name: 'projectName' })
+  // @IsNotEmpty()
+  // projectName: string;
 
-  @ApiProperty({ type: String, name: 'deadline' })
+  @ApiProperty({ type: Date, name: 'deadline' })
   @IsNotEmpty()
-  deadline: string;
+  deadline: Date;
 
-  @ApiProperty({ type: [String], name: 'deadline' })
-  media: [string];
+  @ApiProperty({ type: [String], name: 'media' })
+  media: string;
 }
 
 export class NotesFilterDto {

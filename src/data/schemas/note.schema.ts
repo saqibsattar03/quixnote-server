@@ -8,8 +8,8 @@ export class Notes {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   userId: User;
 
-  @Prop({ type: String })
-  projectName: string;
+  // @Prop({ type: String })
+  // projectName: string;
 
   @Prop({ type: String })
   title: string;
@@ -21,13 +21,12 @@ export class Notes {
   priority: string;
 
   @Prop({
-    type: [String],
-    required: [true, 'at least one timeline image is required'],
+    type: String,
   })
-  media: string[];
+  media: string;
 
-  @Prop({ type: String })
-  deadline: string;
+  @Prop({ type: Date })
+  deadline: Date;
 }
 
 export const NotesSchema = SchemaFactory.createForClass(Notes);

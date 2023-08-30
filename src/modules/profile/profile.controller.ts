@@ -67,8 +67,9 @@ export class ProfileController {
   @ApiBadRequestResponse({ description: 'could not update  password' })
   // @UseGuards(JwtAuthGuard)
   changePassword(@Param('id') id, @Body() data) {
+    console.log(data);
+    console.log(id);
     data.userId = id;
-    // console.log(data.userId);
     return this.profileService.changePassword(data);
   }
 

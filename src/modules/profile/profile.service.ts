@@ -75,10 +75,12 @@ export class ProfileService {
   }
 
   async getAll(role: string): Promise<any> {
-    return this.userModel.find({
-      role: role.toUpperCase(),
-      status: { $ne: 'DELETED' },
-    });
+    return this.userModel
+      .find({
+        role: role.toUpperCase(),
+        status: { $ne: 'DELETED' },
+      })
+      .sort({ createdAt: -1 });
   }
 
   async getUserById(userId): Promise<UserDto> {

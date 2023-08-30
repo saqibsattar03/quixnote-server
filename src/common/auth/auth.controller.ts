@@ -27,14 +27,14 @@ import { JwtAuthGuard } from './guards/jwtAuth.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('sign-up')
+  @Post('/sign-up')
   @ApiBody({ type: UserDto })
   signUp(@Body() userData) {
     console.log('user data :: ', userData);
     return this.authService.signUp(userData);
   }
 
-  @Post('sign-in')
+  @Post('/sign-in')
   @ApiBody({
     schema: {
       type: 'object',
@@ -50,7 +50,7 @@ export class AuthController {
     return this.authService.signIn(request.body);
   }
 
-  @Post('sign-in-via-email')
+  @Post('/sign-in-via-email')
   @ApiBody({
     schema: {
       type: 'object',
@@ -83,7 +83,7 @@ export class AuthController {
       'Account with this email already exists, kindly SignIn through Email and Password!',
   })
   @ApiUnauthorizedResponse({ description: 'Email already exists' })
-  @Post('social-sign-in')
+  @Post('/social-sign-in')
   socialSignIn(@Body() data: SocialAuthDto) {
     console.log('called');
     return this.authService.socialSignIn(data);
@@ -91,6 +91,7 @@ export class AuthController {
 
   @Post('/validate-idToken/:token')
   validateIdToken(@Param('token') token) {
+    console.log(token);
     return this.authService.validateIDToken(token);
   }
 }

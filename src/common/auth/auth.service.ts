@@ -124,6 +124,7 @@ export class AuthService {
   }
 
   async validateIDToken(idToken: string): Promise<boolean> {
+    console.log(idToken);
     return await new Promise<boolean>((resolve) => {
       this.defaultApp
         .auth()

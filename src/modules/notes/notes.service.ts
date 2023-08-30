@@ -16,13 +16,16 @@ export class NotesService {
   }
 
   async allNotes(): Promise<NotesDocument[]> {
-    return this.notesModel.find();
+    return this.notesModel.find().sort({ createdAt: -1 });
   }
   async getAllNotesOfUser(userId): Promise<any> {
-    const notes = await this.notesModel.find({ userId: userId }).populate({
-      path: 'userId',
-      select: 'fullName',
-    });
+    const notes = await this.notesModel
+      .find({ userId: userId })
+      .populate({
+        path: 'userId',
+        select: 'fullName',
+      })
+      .sort({ createdAt: -1 });
 
     return notes.map((note) => ({
       ...note.toObject(),
@@ -46,7 +49,7 @@ export class NotesService {
         title: notesDto.title,
         description: notesDto.description,
         priority: notesDto.priority,
-        projectName: notesDto.projectName,
+        // projectName: notesDto.projectName,
         deadline: notesDto.deadline,
         media: notesDto.media,
       },
