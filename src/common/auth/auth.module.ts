@@ -3,12 +3,11 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { MongooseModule } from '@nestjs/mongoose';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { User, UserSchema } from '../../data/schemas/user.schema';
-import { jwtConstants } from './guards/secret';
 import { ProfileModule } from '../../modules/profile/profile.module';
+import * as process from 'process';
+import { jwtConstants } from './guards/secret';
 
 @Module({
   imports: [
@@ -16,8 +15,8 @@ import { ProfileModule } from '../../modules/profile/profile.module';
     ProfileModule,
     JwtModule.register({
       //save secret key in env file
-      // secret: process.env.SECRET_KEY,
-      secret: jwtConstants.secret,
+      secret: process.env.SECRET_KEY || jwtConstants.secret,
+      // secret: jwtConstants.secret,
       signOptions: { expiresIn: '60d' },
     }),
   ],
