@@ -14,6 +14,7 @@ import * as process from 'process';
     ProfileModule,
     JwtModule.register({
       secret: process.env.SECRET_KEY,
+      // secret: 'SecretKey',
       signOptions: { expiresIn: '60d' },
     }),
   ],
