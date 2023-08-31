@@ -7,7 +7,6 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { ProfileModule } from '../../modules/profile/profile.module';
 import * as process from 'process';
-import { jwtConstants } from './guards/secret';
 
 @Module({
   imports: [
@@ -15,7 +14,7 @@ import { jwtConstants } from './guards/secret';
     ProfileModule,
     JwtModule.register({
       //save secret key in env file
-      secret: process.env.SECRET_KEY || jwtConstants.secret,
+      secret: process.env.SECRET_KEY,
       // secret: jwtConstants.secret,
       signOptions: { expiresIn: '60d' },
     }),

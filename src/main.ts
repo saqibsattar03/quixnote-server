@@ -22,10 +22,8 @@ async function bootstrap() {
     }),
   );
 
-  // if (
-  //   process.env.NODE_ENV == 'staging' ||
-  //   process.env.NODE_ENV == 'development'
-  // ) {
+  console.log(process.env.SECRET_KEY);
+
   const config = new DocumentBuilder()
     .setTitle('Quix-Note')
     .setVersion('1.0')
@@ -36,7 +34,6 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
-  // }
 
   app.useStaticAssets(join(process.cwd(), '..', '..', 'uploads'), {
     prefix: '/uploads/',

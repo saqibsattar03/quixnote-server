@@ -17,7 +17,6 @@ import { multerConfig } from './common/utils/fileUpload.util';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true,
       envFilePath: '.env',
     }),
     AuthModule,
