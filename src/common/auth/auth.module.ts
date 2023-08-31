@@ -6,15 +6,14 @@ import { JwtModule } from '@nestjs/jwt';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { ProfileModule } from '../../modules/profile/profile.module';
-import { jwtConstants } from './guards/secret';
+import * as process from 'process';
 
 @Module({
   imports: [
     PassportModule,
     ProfileModule,
     JwtModule.register({
-      //save secret key in env file
-      secret: jwtConstants.secret,
+      secret: process.env.SECRET_KEY,
       signOptions: { expiresIn: '60d' },
     }),
   ],
