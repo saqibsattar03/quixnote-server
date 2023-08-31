@@ -19,6 +19,7 @@ import { multerConfig } from './common/utils/fileUpload.util';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
+      cache: true,
     }),
     AuthModule,
     DbModule,

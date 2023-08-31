@@ -1,3 +1,5 @@
+import { ConfigModule, ConfigService } from '@nestjs/config';
+ConfigModule.forRoot();
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -9,8 +11,11 @@ import { join } from 'path';
 import * as process from 'process';
 
 async function bootstrap() {
-  dotenv.config();
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  dotenv.config();
+  // const adr = dotenv.config({ path: `${__dirname}/../../.env` });
+  // console.log(adr);
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -21,8 +26,6 @@ async function bootstrap() {
       },
     }),
   );
-
-  console.log(process.env.SECRET_KEY);
 
   const config = new DocumentBuilder()
     .setTitle('Quix-Note')
