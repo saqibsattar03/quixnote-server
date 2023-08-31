@@ -13,13 +13,13 @@ import { TicketModule } from './modules/ticket/ticket.module';
 import { NotesModule } from './modules/notes/notes.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { multerConfig } from './common/utils/fileUpload.util';
+import * as path from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
-      cache: true,
+      envFilePath: path.join(__dirname, '..', '.env'),
     }),
     AuthModule,
     DbModule,

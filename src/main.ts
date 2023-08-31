@@ -1,20 +1,19 @@
-import { ConfigModule, ConfigService } from '@nestjs/config';
-ConfigModule.forRoot();
+import * as path from 'path';
+import * as dotenv from 'dotenv';
+dotenv.config({
+  path: path.join(__dirname, '..', '.env'),
+});
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { json, urlencoded } from 'express';
 import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import * as dotenv from 'dotenv';
 import { join } from 'path';
 import * as process from 'process';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  dotenv.config();
-  // const adr = dotenv.config({ path: `${__dirname}/../../.env` });
-  // console.log(adr);
 
   app.useGlobalPipes(
     new ValidationPipe({
