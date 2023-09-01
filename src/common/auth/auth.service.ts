@@ -106,10 +106,15 @@ export class AuthService {
     }
 
     return {
-      access_token: await this.jwtService.signAsync({
-        email: fetchedUser.email,
-        sub: fetchedUser._id,
-      }),
+      access_token: await this.jwtService.signAsync(
+        {
+          email: fetchedUser.email,
+          sub: fetchedUser._id,
+        },
+        {
+          privateKey: process.env.SECRET_KEY,
+        },
+      ),
 
       // const access_token = await this.jwtService.signAsync(payload);
       //
