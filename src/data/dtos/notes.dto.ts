@@ -17,14 +17,25 @@ export class NotesDto {
   @IsNotEmpty()
   priority: string;
 
-  @ApiProperty({ type: String, name: 'projectName' })
+  // ApiProperty({ type: String, name: 'projectName' })
+  // @IsNotEmpty()
+  // projectName: string;
+
+  @ApiProperty({ type: Date, name: 'deadline' })
   @IsNotEmpty()
+  deadline: Date;
+
+  @ApiProperty({ type: [String], name: 'media' })
+  media: string;
+}
+
+export class NotesFilterDto {
+  @ApiProperty({ type: String, name: 'projectName' })
   projectName: string;
 
-  @ApiProperty({ type: String, name: 'deadline' })
-  @IsNotEmpty()
-  deadline: string;
+  @ApiProperty({ type: String, name: 'priority' })
+  priority: string;
 
-  @ApiProperty({ type: [String], name: 'deadline' })
-  media: [string];
+  @ApiProperty({ type: Date, name: 'createdAt' })
+  createdAt: Date;
 }

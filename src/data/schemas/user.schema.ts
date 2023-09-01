@@ -47,6 +47,9 @@ export class User {
   @Prop({ type: Boolean, default: true })
   notificationPreference: boolean;
 
+  @Prop({ type: String })
+  loginVia: string;
+
   @Prop({ type: Boolean, default: false })
   isSubscribed: boolean;
 

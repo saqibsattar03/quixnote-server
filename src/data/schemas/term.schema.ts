@@ -9,6 +9,9 @@ export class Terms {
 
   @Prop({ type: String })
   description: string;
+
+  @Prop({ type: Date })
+  lastUpdated: Date;
 }
 
 export const TermsSchema = SchemaFactory.createForClass(Terms);

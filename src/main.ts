@@ -4,11 +4,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { json, urlencoded } from 'express';
 import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import * as dotenv from 'dotenv';
+import { join } from 'path';
+import * as process from 'process';
 
 async function bootstrap() {
-  dotenv.config();
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -19,7 +20,6 @@ async function bootstrap() {
       },
     }),
   );
-  app.enableCors();
 
   const config = new DocumentBuilder()
     .setTitle('Quix-Note')
@@ -29,10 +29,16 @@ async function bootstrap() {
       'access-token',
     )
     .build();
-
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
-  const port = 4000;
+
+  app.useStaticAssets(join(process.cwd(), '..', '..', 'uploads'), {
+    prefix: '/uploads/',
+  });
+
+  app.enableCors();
+
+  const port = 3200;
   app.use(json({ limit: '50mb' }));
   app.use(urlencoded({ extended: true, limit: '50mb' }));
   await app.listen(port, '0.0.0.0');

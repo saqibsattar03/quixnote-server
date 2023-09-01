@@ -16,7 +16,7 @@ export class FaqService {
   }
 
   async getAll(): Promise<FAQDocument[]> {
-    return this.faqModel.find();
+    return this.faqModel.find().sort({ createdAt: -1 });
   }
 
   async getById(id): Promise<FAQDocument> {

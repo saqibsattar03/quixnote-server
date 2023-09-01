@@ -11,12 +11,15 @@ import { TermsAndConditionsModule } from './modules/terms-and-conditions/terms-a
 import { FaqModule } from './modules/faq/faq.module';
 import { TicketModule } from './modules/ticket/ticket.module';
 import { NotesModule } from './modules/notes/notes.module';
+import { MulterModule } from '@nestjs/platform-express';
+import { multerConfig } from './common/utils/fileUpload.util';
+import * as path from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env.development',
+      envFilePath: path.join(__dirname, '..', '.env'),
     }),
     AuthModule,
     DbModule,
@@ -27,6 +30,7 @@ import { NotesModule } from './modules/notes/notes.module';
     FaqModule,
     TicketModule,
     NotesModule,
+    MulterModule.register(multerConfig),
   ],
   controllers: [AppController],
   providers: [AppService],
