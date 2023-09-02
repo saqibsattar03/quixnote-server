@@ -28,5 +28,11 @@ export class Notes {
   @Prop({ type: Date })
   deadline: Date;
 }
-
 export const NotesSchema = SchemaFactory.createForClass(Notes);
+NotesSchema.pre('save', function (next) {
+  if (this.isModified('priority')) {
+    this.priority =
+      this.priority.charAt(0).toUpperCase() + this.priority.slice(1);
+  }
+  next();
+});

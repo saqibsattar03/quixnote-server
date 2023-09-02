@@ -59,9 +59,14 @@ export class NotesService {
 
   async filterNotes(data): Promise<NotesDocument[]> {
     const pipeline = [];
-    if (data.projectName) {
+    if (data.title) {
       pipeline.push({
-        $match: { projectName: data.projectName },
+        $match: {
+          title: {
+            $regex: data.title,
+            $options: 'i',
+          },
+        },
       });
     }
     if (data.priority) {
@@ -70,37 +75,90 @@ export class NotesService {
       });
     }
     if (data.createdAt) {
-      // Convert the createdAt value to a Date object
-      const createdAtDate = new Date(data.createdAt);
+      const now = new Date();
+      switch (data.createdAt) {
+        case 'Today':
+          const startOfDay = new Date(now);
+          startOfDay.setHours(0, 0, 0, 0);
+          const endOfDay = new Date(startOfDay);
+          endOfDay.setDate(startOfDay.getDate() + 1);
+          pipeline.push({
+            $match: {
+              createdAt: {
+                $gte: startOfDay,
+                $lt: endOfDay,
+              },
+            },
+          });
+          break;
+        case 'Last Week':
+          const lastWeekStart = new Date(now);
+          lastWeekStart.setDate(now.getDate() - 7); // Go back 7 days
+          lastWeekStart.setHours(0, 0, 0, 0); // Set time to midnight
+          pipeline.push({
+            $match: {
+              createdAt: {
+                $gte: lastWeekStart,
+                $lte: now,
+              },
+            },
+          });
+          break;
 
-      const nextDay = new Date(createdAtDate);
-      nextDay.setDate(createdAtDate.getDate() + 1);
+        case 'Last Month':
+          const lastMonthStart = new Date(now);
+          lastMonthStart.setMonth(now.getMonth() - 1); // Go back 1 month
+          lastMonthStart.setDate(1); // Set to the first day of the month
+          lastMonthStart.setHours(0, 0, 0, 0); // Set time to midnight
 
-      pipeline.push({
-        $match: {
-          createdAt: {
-            $gte: createdAtDate,
-            $lt: nextDay,
-          },
-        },
-      });
+          const lastMonthEnd = new Date(now);
+          lastMonthEnd.setDate(0); // Go back to the last day of the previous month
+          lastMonthEnd.setHours(23, 59, 59, 999); // Set time to the last millisecond of the day
+
+          pipeline.push({
+            $match: {
+              createdAt: {
+                $gte: lastMonthStart,
+                $lte: lastMonthEnd,
+              },
+            },
+          });
+          break;
+
+        case 'Last Year':
+          const lastYearStart = new Date(now);
+          lastYearStart.setFullYear(now.getFullYear() - 1); // Go back 1 year
+          lastYearStart.setMonth(0); // Set to the first month of the year
+          lastYearStart.setDate(1); // Set to the first day of the month
+          lastYearStart.setHours(0, 0, 0, 0); // Set time to midnight
+
+          const lastYearEnd = new Date(now);
+          lastYearEnd.setMonth(11); // Set to the last month of the year
+          lastYearEnd.setDate(31); // Set to the last day of the month
+          lastYearEnd.setHours(23, 59, 59, 999); // Set time to the last millisecond of the day
+          pipeline.push({
+            $match: {
+              createdAt: {
+                $gte: lastYearStart,
+                $lte: lastYearEnd,
+              },
+            },
+          });
+          break;
+
+        default:
+          break;
+      }
+
+      // pipeline.push({
+      //   $match: {
+      //     createdAt: {
+      //       $gte: createdAtDate,
+      //       $lt: nextDay,
+      //     },
+      //   },
+      // });
     }
-    // if (data.createdAt) {
-    //   // Convert the createdAt value to a Date object
-    //   const createdAtDate = new Date(data.createdAt);
-    //
-    //   // Create a date range around the createdAt value (e.g., within the same day)
-    //   const startOfDay = new Date(createdAtDate);
-    //   startOfDay.setHours(0, 0, 0, 0);
-    //
-    //   const endOfDay = new Date(createdAtDate);
-    //   endOfDay.setHours(23, 59, 59, 999);
-    //
-    //   // Match documents within the specified date range
-    //   pipeline.push({
-    //     $match: { createdAt: { $gte: startOfDay, $lte: endOfDay } },
-    //   });
-    // }
     return this.notesModel.aggregate(pipeline);
   }
 }

@@ -19,7 +19,7 @@ import * as path from 'path';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: path.join(__dirname, '..', '.env'),
+      envFilePath: path.join(__dirname, '..', '.env.development'),
     }),
     AuthModule,
     DbModule,
