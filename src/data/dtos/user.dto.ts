@@ -40,6 +40,9 @@ export class UserDto {
   @ApiProperty({ type: String, name: 'country' })
   country: string;
 
+  @ApiProperty({ type: String, name: 'profileImage' })
+  profileImage: string;
+
   @ApiProperty({ type: String, name: 'state' })
   state: string;
 }
@@ -65,6 +68,9 @@ export class UpdateUserDto {
 
   @ApiProperty({ type: String, name: 'scopes' })
   scopes: string;
+
+  @ApiProperty({ type: String, name: 'profileImage' })
+  profileImage: string;
 }
 
 export class SocialAuthDto {

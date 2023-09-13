@@ -57,14 +57,15 @@ export class ProfileService {
     return this.userModel.findOne({ email: email }).select('password');
   }
 
-  async updateProfile(data): Promise<UserDocument> {
-    const user = await this.userModel.findOne({ _id: data.userId });
+  async updateProfile(id, data): Promise<UserDocument> {
+    const user = await this.userModel.findById(id);
     if (!user) throw new NotFoundException(' Profile does not exist');
     return this.userModel.findByIdAndUpdate(
-      data.userId,
+      id,
       {
         fullName: data.fullName,
         city: data.city,
+        profileImage: data.profileImage,
         state: data.state,
         country: data.country,
         scopes: data.scopes,

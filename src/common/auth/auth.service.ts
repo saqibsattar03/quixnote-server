@@ -4,14 +4,10 @@ import {
   Injectable,
   NotAcceptableException,
 } from '@nestjs/common';
-import { Model } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from '../../data/schemas/user.schema';
 import { JwtService } from '@nestjs/jwt';
-import { comparePassword, hashPassword } from '../utils/passwordHashing.util';
-import { SocialAuthDto, UserDto } from '../../data/dtos/user.dto';
+import { comparePassword } from '../utils/passwordHashing.util';
+import { SocialAuthDto } from '../../data/dtos/user.dto';
 import * as firebase from 'firebase-admin';
-import { Validations } from '../lib/validation';
 import * as process from 'process';
 import { ProfileService } from '../../modules/profile/profile.service';
 

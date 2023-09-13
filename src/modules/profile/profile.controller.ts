@@ -31,8 +31,7 @@ export class ProfileController {
   // @UseGuards(JwtAuthGuard)
   @ApiBadRequestResponse({ description: 'could not update Profile' })
   async updateProfile(@Param('id') id, @Body() data) {
-    data.userId = id;
-    return this.profileService.updateProfile(data);
+    return this.profileService.updateProfile(id, data);
   }
 
   @Get('/all/:role')
