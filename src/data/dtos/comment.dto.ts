@@ -13,14 +13,14 @@ export class CommentDto {
   @ApiProperty({ type: String, name: 'comment' })
   comment: string;
 
-  @ApiProperty({ type: [String], name: 'media' })
-  media: [string];
+  @ApiProperty({ type: String, name: 'media' })
+  media: string;
 }
 
 export class EditCommentDto {
   @ApiProperty({ type: String, name: 'comment' })
   comment: string;
 
-  @ApiProperty({ type: [String], name: 'media' })
-  media: [string];
+  @ApiProperty({ type: String, name: 'media' })
+  media: string;
 }

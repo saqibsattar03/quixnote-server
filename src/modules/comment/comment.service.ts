@@ -18,8 +18,17 @@ export class CommentService {
     return this.commentModel.find({ userId: userId });
   }
 
-  async getAllCommentsByNoteId(noteId): Promise<CommentDocument[]> {
-    return this.commentModel.find({ noteId: noteId });
+  async getAllCommentsByNoteId(noteId): Promise<any> {
+    const comments = await this.commentModel.find({ noteId: noteId }).populate({
+      path: 'userId',
+      select: 'fullName profileImage',
+    });
+    return comments.map((comment) => ({
+      ...comment.toObject(),
+      fullName: comment.userId.fullName,
+      profileImage: comment.userId.profileImage,
+      userId: undefined,
+    }));
   }
   async editComment(commentDto: CommentDto): Promise<CommentDocument> {
     const user = await this.commentModel.findOne({

@@ -15,8 +15,8 @@ export class Comment {
   @Prop({ type: String })
   comment: string;
 
-  @Prop({ type: [String] })
-  media: string[];
+  @Prop({ type: String })
+  media: string;
 }
 
 export const CommentSchema = SchemaFactory.createForClass(Comment);
