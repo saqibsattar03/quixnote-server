@@ -35,10 +35,11 @@ export class FaqController {
     return this.faqService.getById(id);
   }
 
-  @Patch()
+  @Patch('/:id')
+  @ApiParam({ type: 'string', name: 'id' })
   @ApiBody({ type: FaqDto })
-  editFaq(@Body() data) {
-    return this.faqService.editFaq(data);
+  editFaq(@Param('id') id, @Body() data) {
+    return this.faqService.editFaq(id, data);
   }
 
   @Delete('/:id')

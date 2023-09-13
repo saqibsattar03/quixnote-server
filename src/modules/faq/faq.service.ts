@@ -23,9 +23,9 @@ export class FaqService {
     return this.faqModel.findById(id);
   }
 
-  async editFaq(faqDto: FaqDto): Promise<FAQDocument> {
+  async editFaq(id, faqDto: FaqDto): Promise<FAQDocument> {
     return this.faqModel.findByIdAndUpdate(
-      faqDto._id,
+      id,
       {
         question: faqDto.question,
         answer: faqDto.answer,
