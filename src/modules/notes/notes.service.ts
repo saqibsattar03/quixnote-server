@@ -40,6 +40,12 @@ export class NotesService {
     return this.notesModel.findById(id).populate('userId');
   }
 
+  async getNoteById(id): Promise<NotesDocument> {
+    const note = await this.notesModel.findById(id);
+    if (!note) throw new NotFoundException('no such note found');
+    return note;
+  }
+
   async editNote(notesDto: NotesDto): Promise<NotesDocument> {
     // const note = await this.notesModel.findById(notesDto._id);
     // if (!note) throw new NotFoundException('no note found');

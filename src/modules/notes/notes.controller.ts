@@ -55,6 +55,13 @@ export class NotesController {
     return this.notesService.getSingleNoteOfUser(id);
   }
 
+  @Get('/get-by-id/:id')
+  @ApiParam({ type: String, name: 'id' })
+  @ApiResponse({ type: NotesDto })
+  getNoteById(@Param('id') id: string) {
+    return this.notesService.getNoteById(id);
+  }
+
   @Patch()
   @ApiBody({ type: NotesDto })
   @ApiResponse({ type: NotesDto })
