@@ -5,6 +5,10 @@ export class NotesDto {
   @ApiProperty({ type: String, name: '_id' })
   _id: string;
 
+  @ApiProperty({ type: String, name: 'userId' })
+  @IsNotEmpty()
+  userId: string;
+
   @ApiProperty({ type: String, name: 'title' })
   @IsNotEmpty()
   title: string;

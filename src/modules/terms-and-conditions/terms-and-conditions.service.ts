@@ -21,7 +21,7 @@ export class TermsAndConditionsService {
     });
   }
   async getAll(): Promise<TermsDocument[]> {
-    return this.termsModel.find();
+    return this.termsModel.find().sort({ lastUpdated: -1 });
   }
 
   async getById(id): Promise<TermsDocument> {

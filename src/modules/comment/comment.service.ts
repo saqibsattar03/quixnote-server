@@ -21,12 +21,13 @@ export class CommentService {
   async getAllCommentsByNoteId(noteId): Promise<any> {
     const comments = await this.commentModel.find({ noteId: noteId }).populate({
       path: 'userId',
-      select: 'fullName profileImage',
+      select: 'fullName profileImage role',
     });
     return comments.map((comment) => ({
       ...comment.toObject(),
       fullName: comment.userId.fullName,
       profileImage: comment.userId.profileImage,
+      role: comment.userId.role,
       userId: undefined,
     }));
   }

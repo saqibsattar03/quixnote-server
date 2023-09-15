@@ -11,8 +11,33 @@ export class NotesService {
   ) {}
 
   async createNotes(notesDto: NotesDto): Promise<NotesDocument> {
-    console.log('called' + notesDto);
-    return this.notesModel.create(notesDto);
+    // const localDeadline = new Date(notesDto.deadline); // Assuming notesDto.deadline is already a JavaScript Date object
+    //
+    // // Convert localDeadline to a string in ISO 8601 format with timezone offset
+    // const isoStringWithOffset = localDeadline.toISOString();
+    // const localDeadline = moment(notesDto.deadline).format(); // Assuming notesDto.deadline is already a JavaScript Date object
+    //
+    // const timezone = moment.tz.guess();
+
+    const localDeadline = new Date(notesDto.deadline); // Assuming notesDto.deadline is already a JavaScript Date object
+
+    const timezoneOffset = localDeadline.getTimezoneOffset(); // Get the timezone offset in minutes
+    const timezoneOffsetMilliseconds = timezoneOffset * 60 * 1000; // Convert to milliseconds
+
+    // Adjust the date by subtracting the timezone offset
+    const localDeadlineAdjusted = new Date(
+      localDeadline.getTime() - timezoneOffsetMilliseconds,
+    );
+
+    console.log('called' + notesDto.deadline);
+    return this.notesModel.create({
+      userId: notesDto.userId,
+      title: notesDto.title,
+      priority: notesDto.priority,
+      description: notesDto.description,
+      deadline: localDeadlineAdjusted,
+      media: notesDto.media,
+    });
   }
 
   async allNotes(): Promise<NotesDocument[]> {
