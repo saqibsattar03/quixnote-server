@@ -1,13 +1,20 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Notes, NotesDocument } from '../../data/schemas/note.schema';
 import { Model } from 'mongoose';
 import { NotesDto } from '../../data/dtos/notes.dto';
+import { CommentService } from '../comment/comment.service';
 
 @Injectable()
 export class NotesService {
   constructor(
     @InjectModel(Notes.name) private readonly notesModel: Model<NotesDocument>,
+    private readonly commentService: CommentService,
   ) {}
 
   async createNotes(notesDto: NotesDto): Promise<NotesDocument> {
@@ -28,8 +35,6 @@ export class NotesService {
     const localDeadlineAdjusted = new Date(
       localDeadline.getTime() - timezoneOffsetMilliseconds,
     );
-
-    console.log('called' + notesDto.deadline);
     return this.notesModel.create({
       userId: notesDto.userId,
       title: notesDto.title,
@@ -43,7 +48,7 @@ export class NotesService {
   async allNotes(): Promise<NotesDocument[]> {
     return this.notesModel.find().sort({ createdAt: -1 });
   }
-  async getAllNotesOfUser(userId): Promise<any> {
+  async getAllNotesOfUser(userId: any): Promise<any> {
     const notes = await this.notesModel
       .find({ userId: userId })
       .populate({
@@ -191,5 +196,12 @@ export class NotesService {
       // });
     }
     return this.notesModel.aggregate(pipeline);
+  }
+
+  async deleteNote(id): Promise<any> {
+    await this.commentService.deleteNotesAllComments(id);
+    const result = await this.notesModel.findByIdAndDelete(id);
+    if (!result) throw new NotFoundException('note not found');
+    throw new HttpException('note deleted successfully', HttpStatus.OK);
   }
 }

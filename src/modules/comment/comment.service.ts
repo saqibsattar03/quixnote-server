@@ -56,6 +56,9 @@ export class CommentService {
       );
     return this.commentModel.findByIdAndDelete(commentId);
   }
+  async deleteNotesAllComments(noteId): Promise<any> {
+    return this.commentModel.deleteMany({ noteId: noteId });
+  }
   async deleteAllCommentByUser(userId): Promise<any> {
     return this.commentModel.deleteMany({ userId: userId });
   }

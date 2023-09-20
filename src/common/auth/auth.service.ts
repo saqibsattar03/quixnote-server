@@ -63,7 +63,12 @@ export class AuthService {
   async signIn(user: any): Promise<any> {
     // const fetchedUser = await this.userModel.findOne({ email: user.email });
     const fetchedUser = await this.profileService.fetchByEmail(user.email);
-    if (!fetchedUser || fetchedUser.status === 'DELETED') {
+    if (fetchedUser.status === 'DELETED') {
+      throw new HttpException(
+        'Account deleted. You can not create account with same email again.',
+        HttpStatus.BAD_REQUEST,
+      );
+    } else if (!fetchedUser) {
       throw new HttpException(
         'User not found. Please create an account first.',
         HttpStatus.BAD_REQUEST,
@@ -145,7 +150,6 @@ export class AuthService {
   }
 
   async socialSignIn(data: SocialAuthDto) {
-    console.log('here in social sign in');
     // if (!(await Validations.ValidateLoginOption(data.loginVia))) {
     //   throw new HttpException(
     //     'Invalid login option!',

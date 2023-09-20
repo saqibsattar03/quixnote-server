@@ -7,6 +7,7 @@ import {
   Get,
   Param,
   Patch,
+  Delete,
 } from '@nestjs/common';
 import { NotesService } from './notes.service';
 import {
@@ -75,5 +76,10 @@ export class NotesController {
   filterNotes(@Body() data) {
     console.log(data);
     return this.notesService.filterNotes(data);
+  }
+
+  @Delete('/:id')
+  deleteNote(@Param('id') id) {
+    return this.notesService.deleteNote(id);
   }
 }
